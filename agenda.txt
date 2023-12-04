@@ -1,0 +1,15 @@
+AGENDA
+
+- Entender o Projeto - juntar os conceitos de negócio e tecnologia
+- Tecnologias utilizadas 
+- Ordem de desenvolvimento
+- Entendimento do microserviço "Bolsa de Valores"
+- Inicio do microserviço "Bolsa de Valores"
+
+Projeto Pratico 
+
+- desenvolveremos uma plataforma de investimentos com Home Broker.
+- Sistema de Bolsa ( Sumular uma B3 - Dar Match entre comprador e vendedor)
+- Home Broker ( Plataforma de investimentos) onde as ofertas serao submetidas
+alem dos indicadores em tempo real.
+
