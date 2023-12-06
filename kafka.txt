@@ -1,0 +1,51 @@
+###  Caracteristicas do kafka
+- mantem historico dos dados
+se o consumidor estiver fora do ar, quando ele voltar ele vai consumir os dados que estavam no kafka
+
+- Tranbalha de forma distribuida 
+se um broker cair, os outros continuam funcionando
+
+- Banco de dados 
+não é um banco de dados, mas pode ser usado como um é extremamente rapido e baixa latencia
+
+- Utiliza Disco ao inves de memoria pra processar dados 
+o kafka utiliza disco ao inves de memoria para processar os dados, isso é bom pois o disco é mais barato que a memoria
+
+kafka nao é um sistema tradicional de mensageria, ele é um sistema de streaming de dados
+
+### Conceitos basicos: 
+
+- Topic
+
+Stream de dados que atua como um banco de dados distribuido, ele é dividido em partições
+
+todos os dados ficam armazenados em um topico, e cada topico é dividido em partições
+
+- Partição
+
+Supondo uqe temos uqe enviar uma mensagem do sistema A para o Sistema B 
+
+o sistema A vai enviar a mensagem para o topico, e o topico vai dividir essa mensagem em partições,
+e cada partição vai enviar essa mensagem para o sistema B
+
+cada partiçao é definida por um numero, e cada partição tem um lider, e os outros brokers são os seguidores
+temos que definir o numero de partições de um topico, pois se tivermos 3 partições, e 3 consumidores, 
+cada consumidor vai consumir uma partição
+
+Offset
+Offset é o numero da mensagem, cada mensagem tem um offset, e cada partição tem um offset
+
+Producer e consumers 
+
+Producer é o sistema que envia a mensagem para o topico
+Consumer é o sistema que consome a mensagem do topico
+ou seja o sistema A é o producer e o sistema B é o consumer
+
+### Kafka Cluster
+
+é um conjunto de brokers, que trabalham em conjunto para manter os dados
+broker é uma maquina que tem o kafka instalado e configurado e permite que os 
+produtores e consumidores se comuniquem com o kafka
+
+Cada particao de Topic é replicada em um broker, e cada broker tem um lider e os outros são seguidores ?
+
