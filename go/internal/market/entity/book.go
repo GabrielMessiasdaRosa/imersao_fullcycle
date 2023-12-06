@@ -2,6 +2,7 @@ package entity
 
 import (
 	"container/heap"
+	"fmt"
 	"sync"
 )
 
@@ -33,6 +34,7 @@ func (b *Book) Trade() {
 	heap.Init(sellOrders) */
 
 	for order := range b.OrdersChan {
+		fmt.Println("order received")
 		asset := order.Asset.ID
 
 		if buyOrders[asset] == nil {
@@ -44,7 +46,6 @@ func (b *Book) Trade() {
 			sellOrders[asset] = NewOrderQueue()
 			heap.Init(sellOrders[asset])
 		}
-
 		switch order.OrderType {
 		case "BUY": // hrdcoded mudar depois
 			b.executeBuyOrderMatchingSellOrders(order, sellOrders[asset], buyOrders[asset])
@@ -77,11 +78,14 @@ func (book *Book) executeBuyOrderMatchingSellOrders(buyOrder *Order, sellOrders 
 func (book *Book) executeSellOrderMatchingBuyOrders(sellOrder *Order, sellOrders *OrderQueue, buyOrders *OrderQueue) {
 	sellOrders.Push(sellOrder)
 	buyOrdersAvailable := buyOrders.Len() > 0 && buyOrders.Orders[0].Price >= sellOrder.Price
+	fmt.Println("buyOrdersAvailable", buyOrdersAvailable)
 	if buyOrdersAvailable {
 		matchedBuyOrder := buyOrders.Pop().(*Order)
+		fmt.Println("matchedBuyOrder", matchedBuyOrder.PendingShares > 0)
 		hasPendingShares := matchedBuyOrder.PendingShares > 0
 		if hasPendingShares {
 			transaction := NewTransaction(sellOrder.ID, sellOrder, matchedBuyOrder, sellOrder.Shares, matchedBuyOrder.Price)
+			fmt.Println("Transaction craeted")
 			book.AddTransaction(transaction, book.Wg)
 			matchedBuyOrder.Transactions = append(matchedBuyOrder.Transactions, transaction)
 			sellOrder.Transactions = append(sellOrder.Transactions, transaction)
@@ -109,5 +113,6 @@ func (b *Book) AddTransaction(transaction *Transaction, wg *sync.WaitGroup) {
 	transaction.CloseBuyOrder()
 	transaction.CloseSellOrder()
 	b.Transactions = append(b.Transactions, transaction)
-	wg.Done()
+	fmt.Println("Transaction added")
+	defer wg.Done()
 }

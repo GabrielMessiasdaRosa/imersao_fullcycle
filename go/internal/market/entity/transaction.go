@@ -1,6 +1,7 @@
 package entity
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/google/uuid"
@@ -18,6 +19,7 @@ type Transaction struct {
 
 func NewTransaction(id string, sellingOrder *Order, buyingOrder *Order, shares int, price float64) *Transaction {
 	total := float64(shares) * price
+	fmt.Println("Iniciando uma nova transação")
 	return &Transaction{
 		ID:           uuid.New().String(),
 		SellingOrder: sellingOrder,
