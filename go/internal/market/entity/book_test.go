@@ -25,12 +25,12 @@ func TestBuyAsset(t *testing.T) {
 
 	// add buy order
 	wg.Add(1)
-	order := NewOrder("1", investor, asset1, 5, 5, "SELL")
+	order := NewOrder(investor, asset1, 5, 5, "SELL")
 	orderChan <- order
 
 	// add sell order
 
-	order2 := NewOrder("2", investor2, asset1, 5, 5, "BUY")
+	order2 := NewOrder(investor2, asset1, 5, 5, "BUY")
 	orderChan <- order2
 	wg.Wait()
 
@@ -66,11 +66,11 @@ func TestBuyPartialAsset(t *testing.T) {
 
 	wg.Add(1)
 	// investidor 2 quer comprar 5 shares
-	order2 := NewOrder("1", investor2, asset1, 5, 5.0, "BUY")
+	order2 := NewOrder(investor2, asset1, 5, 5.0, "BUY")
 	orderChan <- order2
 
 	// investidor 1 quer vender 3 shares
-	order := NewOrder("2", investor, asset1, 3, 5.0, "SELL")
+	order := NewOrder(investor, asset1, 3, 5.0, "SELL")
 	orderChan <- order
 
 	assert := assert.New(t)
@@ -92,7 +92,7 @@ func TestBuyPartialAsset(t *testing.T) {
 	assert.Equal(3, investor2.GetAssetPosition("asset1").Shares, "Investor 2 should have 3 shares of asset 1")
 
 	wg.Add(1)
-	order3 := NewOrder("3", investor3, asset1, 2, 5.0, "SELL")
+	order3 := NewOrder(investor3, asset1, 2, 5.0, "SELL")
 	orderChan <- order3
 	wg.Wait()
 
@@ -130,11 +130,11 @@ func TestBuyWithDifferentPrice(t *testing.T) {
 
 	wg.Add(1)
 	// investidor 2 quer comprar 5 shares
-	order2 := NewOrder("2", investor2, asset1, 5, 5.0, "BUY")
+	order2 := NewOrder(investor2, asset1, 5, 5.0, "BUY")
 	orderChan <- order2
 
 	// investidor 1 quer vender 3 shares
-	order := NewOrder("1", investor, asset1, 3, 4.0, "SELL")
+	order := NewOrder(investor, asset1, 3, 4.0, "SELL")
 	orderChan <- order
 
 	go func() {
@@ -154,7 +154,7 @@ func TestBuyWithDifferentPrice(t *testing.T) {
 	assert.Equal(3, investor2.GetAssetPosition("asset1").Shares, "Investor 2 should have 3 shares of asset 1")
 
 	wg.Add(1)
-	order3 := NewOrder("3", investor3, asset1, 3, 4.5, "SELL")
+	order3 := NewOrder(investor3, asset1, 3, 4.5, "SELL")
 	orderChan <- order3
 
 	wg.Wait()
@@ -189,11 +189,11 @@ func TestNoMatch(t *testing.T) {
 
 	wg.Add(0)
 	// investidor 1 quer vender 3 shares
-	order := NewOrder("1", investor, asset1, 3, 6.0, "SELL")
+	order := NewOrder(investor, asset1, 3, 6.0, "SELL")
 	orderChan <- order
 
 	// investidor 2 quer comprar 5 shares
-	order2 := NewOrder("2", investor2, asset1, 5, 5.0, "BUY")
+	order2 := NewOrder(investor2, asset1, 5, 5.0, "BUY")
 	orderChan <- order2
 
 	go func() {

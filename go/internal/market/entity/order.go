@@ -1,5 +1,7 @@
 package entity
 
+import "github.com/google/uuid"
+
 type Order struct {
 	ID            string         `json:"id"`
 	Investor      *Investor      `json:"investor"`
@@ -12,9 +14,9 @@ type Order struct {
 	Transactions  []*Transaction `json:"transactions"`
 }
 
-func NewOrder(id string, investor *Investor, asset *Asset, shares int, price float64, orderType string) *Order {
+func NewOrder(investor *Investor, asset *Asset, shares int, price float64, orderType string) *Order {
 	return &Order{
-		ID:            id,
+		ID:            uuid.New().String(),
 		Investor:      investor,
 		Asset:         asset,
 		Shares:        shares,
